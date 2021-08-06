@@ -1,4 +1,6 @@
+import { useContext } from 'react';
 import { Route, Redirect } from 'react-router-dom';
+import { AuthContext } from '../contexts/auth';
 
 export default function RouteWrapper({
     // componente da página da rota
@@ -8,10 +10,10 @@ export default function RouteWrapper({
     // argumentos do Router do react-router-dom
     ...rest
 }) {
-    // verifica se uma página está carrgando para exibir alguma tela de loagind
-    const loading = false;
-    // verifica se o usuario está logado, assim permitindo acesso as paginas privadas
-    const signed = false;
+
+    // signed = verifica se o usuario está logado, assim permitindo acesso as paginas privadas
+    // loading = verifica se uma página está carrgando para exibir alguma tela de loagind
+    const { signed, loading } = useContext(AuthContext);
 
     // caso se loading for true, devolve a tela de loading
     if (loading) {
