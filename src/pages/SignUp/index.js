@@ -10,7 +10,7 @@ function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, loadingAuth } = useContext(AuthContext);
 
   function handleSubmit(e) {
     // não recarrega a pagina
@@ -35,7 +35,7 @@ function SignUp() {
             <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} placeholder="Nome" />
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email@email.com" />
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="******" />
-            <button type="submit">Cadastrar</button>
+            <button type="submit">{ loadingAuth ? 'Carregando ... ' : 'Cadastrar'}</button>
           </form>
 
           <Link to="/">Já tem uma conta?</Link>
