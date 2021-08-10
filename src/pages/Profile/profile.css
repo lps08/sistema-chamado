@@ -43,9 +43,11 @@
 .form-profile label {
     margin-bottom: .5em;
     font-size: 1.4em;
+    font-weight: bold;
 }
 
-.form-profile input, textarea {
+.form-profile input, textarea, select {
+    background-color: #fff;
     margin-bottom: 1em;
     padding: .7em;
     /* retirar contorno */
