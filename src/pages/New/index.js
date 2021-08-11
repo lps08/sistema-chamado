@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
+import { toast } from 'react-toastify';
 
 import firebase from '../../services/firebaseConnection';
 
@@ -59,8 +60,29 @@ export default function New() {
         loadCustomers();
     }, []);
 
-    function handleRegister(e) {
+    async function handleRegister(e) {
         e.preventDefault();
+
+        await firebase.firestore().collection('chamados')
+        .add({
+            crated: new Date(),
+            clienteId: customers[custumersSelected].id,
+            cliente: customers[custumersSelected].nomeFantasia,
+            assunto: assunto,
+            status: status,
+            complemento: complemento,
+            userId: user.uid
+        })
+        .then(() => {
+            toast.success('Registrado com sucesso!');
+            // limpa os campos após os registros
+            setComplemento('');
+            setCustumersSelected(0);
+        })
+        .catch((err) => {
+            toast.error('Algo deu errado ao cadastrar!');
+            console.log('Error: ' + err);
+        })
     }
 
     function handleChangeSelect(e) {
