@@ -23,7 +23,7 @@ export default function Dashboard() {
         return () => {
 
         }
-    });
+    }, []); //sem colchehtes, dados ficam redundantes
 
     async function loadChamados() {
         await firebase.firestore().collection('chamados').orderBy('crated', 'desc').limit(5)
