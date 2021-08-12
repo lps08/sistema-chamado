@@ -160,6 +160,9 @@ export default function Dashboard() {
                                 })}
                             </tbody>
                         </table>
+                        
+                        { loadingMore && <h3 style={{textAlign: 'center', marginTop: 15}}>Buscando dados...</h3> }
+                        { !loadingMore && !isEmpty && <button className="btn-more" onClick={ handleMore } >Buscar mais</button>}
                     </>
                 )}
             </div>
