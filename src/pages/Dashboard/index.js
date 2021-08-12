@@ -138,10 +138,12 @@ export default function Dashboard() {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td data-label="Cliente">Sujeito</td>
-                                    <td data-label="Assunto">Suporte</td>
-                                    <td data-label="Status">
+                                {chamados.map((item, index) => {
+                                    return (
+                                        <tr key={index}>
+                                            <td data-label="Cliente">{item.cliente}</td>
+                                            <td data-label="Assunto">{item.assunto}</td>
+                                            <td data-label="Status">
                                         <span className="badge" style={{backgroundColor: "#5cb85c"}}>Em aberto</span>
                                     </td>
                                     <td data-label="Cadastrado">20/08/2021</td>
