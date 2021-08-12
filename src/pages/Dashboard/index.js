@@ -70,6 +70,35 @@ export default function Dashboard() {
         setLoadingMore(false);
     }
 
+    async function handleMore() {
+        setLoadingMore(true);
+        await firebase.firestore().collection('chamados').orderBy('crated', 'desc')
+        .startAfter(lastDoc).limit(5)
+        .get()
+        .then((snapshot) => {
+            // nao precisando recriar a função novamente ao buscar novos items
+            updateState(snapshot);
+        })
+    }
+
+    if(loading) {
+        return (
+            <div>
+                <Header/>
+                
+                <div className="content">
+                    <Title name="Atendimentos">
+                        <FiMessageSquare size={25}/>
+                    </Title>
+
+                    <div className="container dashboard">
+                        <span>Buscando chamados.</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return(
         <div>
             <Header/>
