@@ -146,16 +146,18 @@ export default function Dashboard() {
                                             <td data-label="Status">
                                         <span className="badge" style={{backgroundColor: "#5cb85c"}}>Em aberto</span>
                                     </td>
-                                    <td data-label="Cadastrado">20/08/2021</td>
-                                    <td data-label="#">
-                                        <button className="action" style={{backgroundColor: '#3583f6'}}>
-                                            <FiSearch color="#fff" size={17}/>
-                                        </button>
-                                        <button className="action" style={{backgroundColor: '#f6a935'}}>
-                                            <FiEdit2 color="#fff" size={17}/>
-                                        </button>
-                                    </td>
-                                </tr>
+                                            <td data-label="Cadastrado">{item.createdFormated}</td>
+                                            <td data-label="#">
+                                                <button className="action" style={{backgroundColor: '#3583f6'}}>
+                                                    <FiSearch color="#fff" size={17}/>
+                                                </button>
+                                                <button className="action" style={{backgroundColor: '#f6a935'}}>
+                                                    <FiEdit2 color="#fff" size={17}/>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
                             </tbody>
                         </table>
                     </>
