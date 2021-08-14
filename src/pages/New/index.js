@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { toast } from 'react-toastify';
 
 import firebase from '../../services/firebaseConnection';
+import { useHistory, useParams } from 'react-router-dom';
 
 import './new.css';
 
@@ -13,6 +14,9 @@ import { FiPlusCircle } from 'react-icons/fi'
 
 export default function New() {
 
+    const { id } = useParams();
+    const history = useHistory();
+
     const [ loadCustomers, setLoadCustomers ] = useState(true);
     const [ customers, setCustomers ] = useState([]);
     const [ custumersSelected, setCustumersSelected ] = useState(0);
@@ -21,6 +25,8 @@ export default function New() {
     const [ assunto, setAssunto ] = useState('Suporte');
     const [ status, setStatus ] = useState('Aberto');
     const [ complemento, setComplemento ] = useState('');
+
+    const [idCostomer, setIdCustomer] = useState(false);
 
     const { user } = useContext(AuthContext);
 
@@ -48,6 +54,10 @@ export default function New() {
 
                 setCustomers(lista);
                 setLoadCustomers(false);
+
+                if (id) {
+                    loadId(lista);
+                }
             })
             .catch((e) => {
                 console.log('Error: ' + e);
@@ -58,10 +68,54 @@ export default function New() {
         }
 
         loadCustomers();
-    }, []);
+    }, [id]);
+
+    async function loadId(lista) {
+        await firebase.firestore().collection('chamados').doc(id)
+        .get()
+        .then((snapshot) => {
+            setAssunto(snapshot.data().assunto);
+            setStatus(snapshot.data().status);
+            setComplemento(snapshot.data().complemento);
+
+            let index = lista.findIndex(item => item.id === snapshot.data().clienteId);
+            setCustumersSelected(index);
+            setIdCustomer(true);
+        })
+        .catch((err) => {
+            console.log('Error: ', err);
+            setIdCustomer(false);
+        })
+    }
 
     async function handleRegister(e) {
         e.preventDefault();
+
+        if (idCostomer) {
+            await firebase.firestore().collection('chamados')
+            .doc(id)
+            .update({
+                clienteId: customers[custumersSelected].id,
+                cliente: customers[custumersSelected].nomeFantasia,
+                assunto: assunto,
+                status: status,
+                complemento: complemento,
+                userId: user.uid
+            })
+            .then(() => {
+                toast.success('Chamado editado com sucesso!');
+                setCustumersSelected(0);
+                setComplemento('')
+                history.push('/dashboard');
+            })
+            .catch((err) => {
+                console.log('Error: ', err);
+                toast.error('Erro ao editar, tente mais tarde!');
+            })
+
+            // acabar a realização do restando do método
+            return
+        }
 
         await firebase.firestore().collection('chamados')
         .add({
